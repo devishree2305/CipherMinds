@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Guardian In Box</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0a2a43;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #0c3d5e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: #1a4d7c;
+            border-radius: 10px;
+        }
+        .header img {
+            height: 50px;
+        }
+        .header h1 {
+            flex-grow: 1;
+            text-align: left;
+            margin-left: 10px;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .buttons button {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffa500;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .info-box {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 99px;
+            border-radius: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo.png" alt="Logo">
+            <h1>GUARDIAN IN BOX</h1>
+            <div class="buttons">
+                <!-- Add onclick handlers to buttons -->
+                <button onclick="redirectToUploadEmail()">Upload Email</button>
+                <button onclick="redirectToDashboard()">Dashboard</button>
+                <button onclick="redirectToAlerts()">Alerts</button>
+            </div>
+        </div>
+        <div class="info-box">
+            <p>A phishing email is a fraudulent email designed to trick recipients into providing sensitive information such as passwords, credit card numbers, or personal details. Cybercriminals use phishing emails to impersonate legitimate organizations and steal data or spread malware.</p>
+            <h2>How to Identify a Phishing Email</h2>
+            <ol>
+                <li><strong>Suspicious Sender:</strong> Check for unusual or misspelled email addresses.</li>
+                <li><strong>Urgent Language:</strong> Look for threats or urgency like "Immediate action required!"</li>
+                <li><strong>Unusual Links/Attachments:</strong> Hover over links (without clicking) to check URLs.</li>
+                <li><strong>Poor Grammar:</strong> Typos, awkward sentences, or unprofessional formatting.</li>
+                <li><strong>Request for Personal Info:</strong> Legitimate companies never ask for sensitive info via email.</li>
+                <li><strong>Generic Greetings:</strong> "Dear Customer" instead of your name.</li>
+            </ol>
+            <h3>Stay cautious and verify before clicking!</h3>
+        </div>
+    </div>
+
+    <script>
+        // Function to redirect to Upload Email page
+        function redirectToUploadEmail() {
+            window.location.href = "detect.html"; // Replace with the correct page for uploading emails
+        }
+
+        // Function to redirect to Dashboard page
+        function redirectToDashboard() {
+            window.location.href = "dashboard.html"; // Replace with the correct page for the dashboard
+        }
+
+        // Function to redirect to Alerts page
+        function redirectToAlerts() {
+            window.location.href = "alerts.html"; // Replace with the correct page for alerts
+        }
+    </script>
+</body>
+</html>

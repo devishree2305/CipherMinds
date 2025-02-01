@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login Page</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            position: relative;
+            min-height: 100vh;
+            overflow-y: auto; /* Allows vertical scrolling */
+        }
+
+        /* Meteor Animation */
+        @keyframes meteor {
+            0% {
+                transform: rotate(215deg) translateX(0);
+                opacity: 1;
+            }
+            70% {
+                opacity: 1;
+            }
+            100% {
+                transform: rotate(215deg) translateX(-500px);
+                opacity: 0;
+            }
+        }
+
+        .meteor {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 2px;
+            width: 2px;
+            border-radius: 9999px;
+            background-color: #64748b;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+            transform: rotate(215deg);
+            animation: meteor 5s linear infinite;
+        }
+
+        .meteor::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 1px;
+            background: linear-gradient(to right, #64748b, transparent);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 5, 8, 0.9);
+            width: 100%;
+            padding: 15px 0;
+            z-index: 10;
+            position: relative;
+        }
+
+        .header img {
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .header h1 {
+            color: rgb(197, 205, 231);
+            font-family: Guardians;
+            margin: 0;
+            /* font-family: 'Poppins', sans-serif; */
+        }
+
+        /* Login Container */
+        .container {
+            display: flex;
+            gap: 20px;
+            background: rgba(0, 7, 12, 0.9);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            position: relative;
+            width: 100%;
+            height: 100vh; /* Make the container full-height */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+
+        .login-box {
+            background: #1a4d7c;
+            padding: 50px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 350px;
+            min-height: 400px; /* Ensure it has a minimum height */
+            z-index: 20; /* Ensure the login box is above the meteor effect */
+        }
+
+        .icon {
+            font-size: 50px;
+            color: white;
+        }
+
+        h2 {
+            color: white;
+            font-size: 2.5rem; /* Larger font size */
+            font-weight: bold; /* Make the text bold */
+            font-family: 'Poppins', sans-serif; /* Attractive, modern font */
+            letter-spacing: 2px; /* Adds space between letters */
+            text-transform: uppercase; /* Makes the text uppercase */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Adds a soft shadow for better contrast */
+        }
+
+        label {
+            align-self: flex-start;
+            color: white;
+            margin-top: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: none;
+            z-index: 30; /* Ensure input fields are above the meteor effect */
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffa500;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 30; /* Ensure button is above the meteor effect */
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(90, 115, 151, 0.1);
+            padding: 50px;
+            border-radius: 5px;
+            color: white;
+            width: 350px;
+            min-height: 400px; /* Ensure it has a minimum height */
+            z-index: 20; /* Ensure info box is above the meteor effect */
+        }
+
+        /* Info Text Styling */
+        .info-box p {
+            font-size: 1.2rem; /* Larger font size */
+            line-height: 1.6;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Meteor Container */
+        #meteor-container {
+            position: fixed; /* Ensure it's fixed in the background */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1; /* Keep the meteor container in the background */
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+  apiKey: "AIzaSyAymaa8NhEe-NvIYwNxiKAU_mMlzOXvvoQ",
+  authDomain: "guardianinbox-458f1.firebaseapp.com",
+  projectId: "guardianinbox-458f1",
+  storageBucket: "guardianinbox-458f1.firebasestorage.app",
+  messagingSenderId: "162573718156",
+  appId: "1:162573718156:web:dcbef4dd97538e8410a1a9",
+  measurementId: "G-99SCJ3V5C0"
+};
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+
+        function login() {
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Signed in
+                    var user = userCredential.user;
+                    alert("login successful!");
+                    window.location.href = "about.html"; // Redirect to about page after login
+                })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    alert(errorMessage);
+                });
+        }
+
+        // Function to create meteors
+        function createMeteors() {
+            const container = document.getElementById('meteor-container');
+
+            for (let i = 0; i < 15; i++) { // Adjust number of meteors
+                let meteor = document.createElement('div');
+                meteor.classList.add('meteor');
+                meteor.style.top = Math.random() * 100 + 'vh';
+                meteor.style.left = Math.random() * 100 + 'vw'; // Distribute across the entire width
+                meteor.style.animationDelay = `calc(0.2s + ${Math.random() * 0.6}s)`;
+                meteor.style.animationDuration = `calc(2s + ${Math.random() * 8}s)`;
+                container.appendChild(meteor);
+            }
+        }
+
+        function login() {
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+
+    firebase.auth().signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            // Signed in
+            var user = userCredential.user;
+            alert("Login successful!");
+            window.location.href = "about.html"; // Redirect to about page after login
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            alert(errorMessage);
+        });
+}
+
+        // Call function to create meteors
+        createMeteors();
+    </script>
+</head>
+<body>
+    <!-- Meteor Background Effect -->
+    <div id="meteor-container"></div>
+
+    <!-- Header -->
+    <!-- Header -->
+    <div class="header">
+        <img src="logo.png" alt="Logo">
+        <h1>Guardian InBox</h1>
+        </style>
+    </div>
+
+
+    <!-- login Section -->
+    <div class="container">
+        <div class="login-box">
+            <div class="icon">&#128100;</div>
+            <h2>login</h2>
+            <label>Email</label>
+            <input type="email" id="email" placeholder="Enter your email">
+            <label>Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+            <button onclick="login()">Login</button>
+        </div>
+        <div class="info-box">
+            <p><strong>Guardian In Box</strong> is a phishing email detection tool designed to identify and prevent fraudulent emails that aim to deceive recipients into revealing sensitive information.</p>
+            <p>Reduce the impact of cybercrime and safeguard your employees and customers from falling victim to phishing fraud.</p>
+        </div>
+    </div>
+    <script type="module" src="./js/firebase-config.js"></script>
+    <script type="module" src="./js/login.js"></script>
+</body>
+</html>
